@@ -7,6 +7,10 @@ public class Object {
         registerNatives();
     }
 
+    public Object() {
+
+    }
+
     public boolean equals(Object o) {
         return o == this;
     }

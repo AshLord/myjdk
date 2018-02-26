@@ -15,9 +15,18 @@ public abstract class AbstractCollection<E> implements Collection<E> {
     }
 
     public boolean contains(Object o) {
-        for (E e : this) {
-            if (o.equals(e)) {
-                return true;
+        Iterator<E> it = iterator();
+        if (o == null) {
+            while (it.hasNext()) {
+                if (it.next() == null) {
+                    return true;
+                }
+            }
+        } else {
+            while (it.hasNext()) {
+                if (o.equals(it.next())) {
+                    return true;
+                }
             }
         }
         return false;
