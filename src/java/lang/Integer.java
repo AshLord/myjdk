@@ -25,4 +25,12 @@ public class Integer extends Number{
     public double doubleValue() {
         return 0;
     }
+
+    public static String toHexString(int i) {
+        return toUnsignedString0(i, 4);
+    }
+
+    private static String toUnsignedString0(int val, int shift) {
+        return null;
+    }
 }

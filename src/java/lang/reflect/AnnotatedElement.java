@@ -9,4 +9,13 @@ public interface AnnotatedElement {
     }
 
     <T extends Annotation> T getAnnotation(Class<T> annotationClass);
+
+    Annotation[] getAnnotations();
+
+    default <T extends Annotation> T[] getAnnotationByType(Class<T> annotationClass) {
+        //todo
+        return null;
+    }
+
+    Annotation[] getDeclaredAnnotations();
 }

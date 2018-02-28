@@ -8,5 +8,6 @@ public interface CharSequence {
 
     CharSequence subSequence(int start, int end);
 
+    @Override
     public String toString();
 }

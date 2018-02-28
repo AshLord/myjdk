@@ -23,14 +23,50 @@ public class Object {
     @HotSpotIntrinsicCandidate
     public final native Class<?> getClass();
 
+    @HotSpotIntrinsicCandidate
+    public native int hashCode();
 
-
-
-
-
-
-
-    public boolean equals(Object o) {
-        return o == this;
+    public boolean equals(Object obj) {
+        return this == obj;
     }
+
+    @HotSpotIntrinsicCandidate
+    protected native Object clone() throws CloneNotSupportedException;
+
+    public String toString() {
+        return getClass().getName() +"@"+ Integer.toHexString(hashCode());
+    }
+
+    @HotSpotIntrinsicCandidate
+    public final native void notify();
+
+    @HotSpotIntrinsicCandidate
+    public final native void notifyAll();
+
+    public final native void wait(long timeout) throws InterruptedException;
+
+    public final void wait(long timeout,int nanos) throws InterruptedException{
+        if (timeout < 0) {
+            throw new IllegalArgumentException("timeout value cannot be negative");
+        }
+        if (nanos < 0 || nanos > 999999) {
+            throw new IllegalArgumentException("nanosecond timeout value out of range");
+        }
+        if (nanos > 0) {
+            timeout++;
+        }
+
+        wait(timeout);
+    }
+
+    public final void wait() throws InterruptedException {
+        wait(0);
+    }
+
+    @Deprecated(since = "9")
+    protected void finalize() throws Throwable {
+
+    }
+
+
 }
