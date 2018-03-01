@@ -14,7 +14,7 @@ public interface Collection<E> extends Iterable<E>{
     @Override
     Iterator<E> iterator();
 
-    Objects[] toArray();
+    Object[] toArray();
 
     <T> T[] toArray(T[] a);
 
