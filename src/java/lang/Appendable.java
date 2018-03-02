@@ -8,5 +8,5 @@ public interface Appendable {
 
     Appendable append(CharSequence csq, int start, int end) throws IOException;
 
-    Appendable append(char c) throws IOException;
+    Appendable append(char c);
 }

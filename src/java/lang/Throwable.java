@@ -12,4 +12,16 @@ public class Throwable implements Serializable{
 
     }
 
+    public Throwable(String msg, Throwable cause) {
+
+    }
+
+    public Throwable(Throwable cause) {
+
+    }
+
+    public Throwable(String msg, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+
+    }
+
 }

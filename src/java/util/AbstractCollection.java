@@ -9,8 +9,9 @@ public abstract class AbstractCollection<E> implements Collection<E> {
     }
 
     //成员变量
-    private static final int MAX_ARRAY_SIZE = Integer.M
+    private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
 
+    @Override
     public abstract Iterator<E> iterator();
 
     public abstract int size();
@@ -90,9 +91,129 @@ public abstract class AbstractCollection<E> implements Collection<E> {
             if (i == cap) {
                 int newCap = cap + (cap >> 1) + 1;
                 //可能溢出
-                if (newCap - )
+                if (newCap - MAX_ARRAY_SIZE > 0) {
+                    newCap = hugeCapcity(cap + 1);
+                }
+                r = Arrays.copyOf(r, newCap);
+            }
+            r[i++] = (T) it.next();
+        }
+        //如果溢出截取
+        if (i == r.length) {
+            return r;
+        } else {
+            return Arrays.copyOf(r, i);
+        }
+    }
+
+    private static int hugeCapcity(int minCapcity) {
+        if (minCapcity < 0) {
+            throw new OutOfMemoryError("Required array size too large");
+        }
+        if (minCapcity > MAX_ARRAY_SIZE) {
+            return Integer.MAX_VALUE;
+        } else {
+            return MAX_ARRAY_SIZE;
+        }
+    }
+
+    public boolean add(E e) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean remove(Object o) {
+        Iterator<E> it = iterator();
+        if (o == null) {
+            while (it.hasNext()) {
+                if (it.next() == null) {
+                    it.remove();
+                    return true;
+                }
+            }
+        } else {
+            while (it.hasNext()) {
+                if (o.equals(it.next())) {
+                    it.remove();
+                    return true;
+                }
             }
         }
-        return null;
+        return false;
+    }
+
+    /**
+     * ————————————————————————————————————————————————————————————————————————————————————————————————
+     *                                             批量操作
+     * ————————————————————————————————————————————————————————————————————————————————————————————————
+     */
+
+    public boolean contailsAll(Collection<?> collection) {
+        for (Object e : collection) {
+            if (!contains(e)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean addAll(Collection<? extends E> collection) {
+        boolean modified = false;
+        for (E e : collection) {
+            if (add(e)) {
+                modified = true;
+            }
+        }
+        return modified;
+    }
+
+    public boolean removeAll(Collection<?> c) {
+        Objects.requireNotNull(c);
+        boolean modified = false;
+        Iterator<?> it = iterator();
+        while (it.hasNext()) {
+            if (c.contains(it.next())) {
+                it.remove();
+                modified = true;
+            }
+        }
+        return modified;
+    }
+
+    public boolean retainAll(Collection<?> c) {
+        Objects.requireNotNull(c);
+        boolean modified = false;
+        Iterator<E> it = iterator();
+        while (it.hasNext()) {
+            if (!c.contains(it.next())) {
+                it.remove();
+                modified = true;
+            }
+        }
+        return modified;
+    }
+
+    public void clear() {
+        Iterator<E> it = iterator();
+        while (it.hasNext()) {
+            it.next(); // ????
+            it.remove();
+        }
+    }
+
+    public String toString() {
+        Iterator<E> it = iterator();
+        if (!it.hasNext()) {
+            return "[]";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for(;;) {
+            E e = it.next();
+            sb.append(e == this ? "(this Collection)" : e);
+            if (!it.hasNext()) {
+                return sb.append(']').toString();
+            }
+            sb.append(',').append(' ');
+        }
     }
 }
