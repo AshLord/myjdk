@@ -12,7 +12,7 @@ public final class Objects {
         throw new RuntimeException();
     }
 
-    public static <T> T requireNotNull(T obj) {
+    public static <T> T requireNonNull(T obj) {
         if (obj == null) {
             throw new NullPointerException();
         }

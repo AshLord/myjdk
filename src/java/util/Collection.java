@@ -37,7 +37,7 @@ public interface Collection<E> extends Iterable<E>{
     int hashcode();
 
     default boolean removeIf(Predicate<? super E> filter) {
-        Objects.requireNotNull(filter);
+        Objects.requireNonNull(filter);
         boolean removed = false;
         final Iterator<E> each = iterator();
         while (each.hasNext()) {

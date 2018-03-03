@@ -5,5 +5,24 @@ package java.util;
  * date: 01/03/2018
  * desc:
  */
-public class AbstractList {
+public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E>{
+
+    protected AbstractList() {
+
+    }
+
+    public boolean add(E e) {
+        add(size(), e);
+        return true;
+    }
+
+    public void add(int index, E element) {
+        throw new UnsupportedOperationException();
+    }
+
+    public abstract E get(int index);
+
+
+
+
 }
