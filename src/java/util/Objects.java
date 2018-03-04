@@ -1,5 +1,8 @@
 package java.util;
 
+import jdk.internal.util.Preconditions;
+import jdk.internal.vm.annotation.ForceInline;
+
 /**
  * @author yang.jin
  * date: 22/02/2018
@@ -17,6 +20,11 @@ public final class Objects {
             throw new NullPointerException();
         }
         return obj;
+    }
+
+    @ForceInline
+    public static int checkIndex(int index,int length) {
+        return Preconditions.checkIndex(index, length, null);
     }
 
 }

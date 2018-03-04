@@ -29,4 +29,29 @@ public class Arrays {
         System.arraycopy(original,0,copy,0,newLength);
         return copy;
     }
+
+    public static <T> void sort(T[] a,Comparator<? super T> c) {
+        if (c == null) {
+            sort(a);
+        } else {
+            if (LegacyMergeSort.userRequested) {
+                legacyMergeSort(a,c);
+            } else {
+                Timsort.sort(a, 0, a.length, c, null, 0, 0);
+            }
+        }
+    }
+
+    public static void sort(Object[] a) {
+    }
+
+    private static <T> void legacyMergeSort(T[] a,Comparator<? super T> c) {
+
+    }
+
+    static final class LegacyMergeSort {
+
+        private static final boolean userRequested =false;
+    }
+
 }

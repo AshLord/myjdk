@@ -10,5 +10,11 @@ public class Exception extends Throwable{
         super(msg);
     }
 
+    public Exception(Throwable cause) {
+        super(cause);
+    }
 
+    public Exception(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -9,6 +9,9 @@ import java.util.function.Consumer;
  */
 public interface Spliterator<T> {
 
+    //field
+    public static final int ORDERED = 0x00000010;
+
     boolean tryAdvance(Consumer<? super T> action);
 
     Spliterator<T> trySplit();
