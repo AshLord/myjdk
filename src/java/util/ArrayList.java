@@ -90,6 +90,15 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>,RandomAcces
 
     @Override
     public E remove(int idx) {
+        Objects.checkIndex(idx, size);
+        modCount++;
+        E oldValue = elementData(idx);
+        int numMoved = size - idx - 1;
+        if (numMoved > 0) {
+            System.arraycopy(elementData, idx + 1, elementData, idx, numMoved);
+        }
+        // clear to let gc works
+        elementData[--size] = null;
         return null;
     }
 
