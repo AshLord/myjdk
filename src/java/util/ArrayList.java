@@ -99,17 +99,66 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>,RandomAcces
         }
         // clear to let gc works
         elementData[--size] = null;
-        return null;
+        return oldValue;
     }
 
+    public void clear() {
+        modCount++;
+        final Object[] es = elementData;
+        int to = size;
+        for (int i = size =0;i<to;i++) {
+            es[i] = null;
+        }
+    }
     @Override
     public int indexOf(Object o) {
-        return 0;
+        if (o == null) {
+            for (int i=0;i<size;i++) {
+                if (elementData[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i=0;i<size;i++) {
+                if (o.equals(elementData[i])) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        if (o == null) {
+            for (int i=size-1;i>=0;i--) {
+                if (elementData[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = size-1;i>=0;i--) {
+                if (o.equals(elementData[i])) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public Object clone() {
+        try {
+            ArrayList<?> v = (ArrayList<?>) super.clone();
+            v.elementData = Arrays.copyOf(elementData, size);
+            v.modCount = 0;
+            return v;
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError();
+        }
+    }
+
+    public Object[] toArray() {
+        return Arrays.copyOf(elementData, size);
     }
 
     @Override
@@ -151,6 +200,48 @@ public class ArrayList<E> extends AbstractList<E> implements List<E>,RandomAcces
     public int size() {
         return 0;
     }
+
+    private class Itr implements Iterator<E> {
+
+        Itr() {
+            //防止创建合成构造函数
+        }
+
+        //下一个元素的指针
+        int cursor;
+        //返回的最后一个元素的指针
+        int lasrRet = -1;
+        //fast-fail机制
+        int expectedModCount = modCount;
+
+        @Override
+        public boolean hasNext() {
+            return cursor != size;
+        }
+
+        @Override
+        public E next() {
+            checkForComodification();
+            int i = cursor;
+            if (i > size) {
+                throw new NoSuchElementException();
+            }
+            Object[] elementData = ArrayList.this.elementData;
+            if (i >= elementData.length) {
+                throw new ConcurrentModificationException();
+            }
+            cursor = i + 1;
+            return (E) elementData[lasrRet = i];
+        }
+
+        final void checkForComodification() {
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException();
+            }
+        }
+    }
+
+    //private class ListItr extends
 
     private static class SubList<E> extends AbstractList<E> implements RandomAccess {
 
